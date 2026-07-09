@@ -1,58 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Uneco</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNECO</title>
   <style>
+    :root {
+      --bg: #f7f4ee;
+      --text: #1f2a44;
+      --muted: #7b8190;
+      --line: #b8b2a6;
+      --glow: rgba(75, 102, 255, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
+      background: radial-gradient(circle at center, #ffffff 0%, var(--bg) 70%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: Arial, sans-serif;
-      background: #f8f6f1;
-      color: #1f2a44;
     }
-    .center {
+
+    main {
+      width: 100%;
+      max-width: 900px;
       text-align: center;
+      padding: 40px 24px;
     }
-    h1 {
-      font-size: 28px;
+
+    .greeting {
+      font-size: clamp(28px, 4vw, 42px);
       font-weight: 400;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
+
     .question {
-      font-size: 34px;
-      margin-bottom: 36px;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 500;
+      margin-bottom: 58px;
+      letter-spacing: -0.03em;
     }
+
+    .mic-wrap {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      box-shadow:
+        0 0 0 18px var(--glow),
+        0 28px 70px rgba(31, 42, 68, 0.12);
+      animation: pulse 3s ease-in-out infinite;
+      cursor: pointer;
+    }
+
     .mic {
-      font-size: 58px;
-      margin-bottom: 36px;
-      animation: pulse 2s infinite;
+      font-size: 76px;
+      line-height: 1;
+      transform: rotate(-12deg);
     }
+
+    .input {
+      width: min(520px, 90vw);
+      margin: 0 auto;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 12px;
+    }
+
     input {
-      width: 360px;
-      padding: 14px 18px;
-      border: none;
-      border-bottom: 1px solid #999;
+      width: 100%;
+      border: 0;
+      outline: 0;
       background: transparent;
-      font-size: 18px;
       text-align: center;
-      outline: none;
+      font-size: 22px;
+      color: var(--text);
     }
+
+    input::placeholder {
+      color: var(--muted);
+    }
+
+    .privacy {
+      margin-top: 36px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
     @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.75; }
-      50% { transform: scale(1.08); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.75; }
+      0%, 100% {
+        transform: scale(1);
+        box-shadow:
+          0 0 0 14px rgba(75, 102, 255, 0.12),
+          0 28px 70px rgba(31, 42, 68, 0.12);
+      }
+      50% {
+        transform: scale(1.035);
+        box-shadow:
+          0 0 0 28px rgba(75, 102, 255, 0.08),
+          0 32px 80px rgba(31, 42, 68, 0.15);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="center">
-    <h1>Good morning, Reed.</h1>
+  <main>
+    <div class="greeting">Good morning, Reed.</div>
     <div class="question">What would you like to understand?</div>
-    <div class="mic">🎤</div>
-    <input placeholder="Type or speak..." />
-  </div>
+
+    <div class="mic-wrap" aria-label="Start voice input">
+      <div class="mic">🎙️</div>
+    </div>
+
+    <div class="input">
+      <input type="text" placeholder="Type or speak..." />
+    </div>
+
+    <div class="privacy">Private by design. Your conversations are yours.</div>
+  </main>
 </body>
 </html>
