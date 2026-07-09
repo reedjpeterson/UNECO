@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UNECO</title>
+
   <style>
     :root {
       --bg: #f7f4ee;
@@ -16,35 +17,7 @@
     * {
       box-sizing: border-box;
     }
-<script>
-  const input = document.querySelector("input");
-  const main = document.querySelector("main");
 
-  const conversation = document.createElement("section");
-  conversation.style.marginTop = "56px";
-  conversation.style.textAlign = "left";
-  conversation.style.maxWidth = "680px";
-  conversation.style.marginLeft = "auto";
-  conversation.style.marginRight = "auto";
-  conversation.style.fontSize = "18px";
-  conversation.style.lineHeight = "1.6";
-  main.appendChild(conversation);
-
-  input.addEventListener("keydown", function (event) {
-    if (event.key !== "Enter") return;
-
-    const text = input.value.trim();
-    if (!text) return;
-
-    conversation.innerHTML += `
-      <p><strong>You:</strong><br>${text}</p>
-      <p><strong>TIG:</strong><br>I heard you say: "${text}"</p>
-    `;
-
-    input.value = "";
-  });
-</script>
-    
     body {
       margin: 0;
       min-height: 100vh;
@@ -61,11 +34,12 @@
       max-width: 900px;
       text-align: center;
       padding: 40px 24px;
-  }
+    }
+
     @media (max-width: 600px) {
-  main {
-    padding-top: 20px;
-}
+      main {
+        padding-top: 20px;
+      }
     }
 
     .greeting {
@@ -133,6 +107,22 @@
       color: var(--muted);
     }
 
+    .conversation {
+      margin: 56px auto 0;
+      max-width: 680px;
+      text-align: left;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .message {
+      margin-bottom: 24px;
+    }
+
+    .speaker {
+      font-weight: 700;
+    }
+
     @keyframes pulse {
       0%, 100% {
         transform: scale(1);
@@ -140,6 +130,7 @@
           0 0 0 14px rgba(75, 102, 255, 0.12),
           0 28px 70px rgba(31, 42, 68, 0.12);
       }
+
       50% {
         transform: scale(1.035);
         box-shadow:
@@ -149,6 +140,7 @@
     }
   </style>
 </head>
+
 <body>
   <main>
     <div class="greeting">Good morning, Reed.</div>
@@ -159,10 +151,45 @@
     </div>
 
     <div class="input">
-      <input type="text" placeholder="Type or speak..." />
+      <input id="promptInput" type="text" placeholder="Type or speak..." />
     </div>
 
     <div class="privacy">Private by design. Your conversations are yours.</div>
+
+    <section id="conversation" class="conversation"></section>
   </main>
+
+  <script>
+    const input = document.getElementById("promptInput");
+    const conversation = document.getElementById("conversation");
+
+    function addMessage(speaker, text) {
+      const message = document.createElement("div");
+      message.className = "message";
+
+      const label = document.createElement("div");
+      label.className = "speaker";
+      label.textContent = speaker + ":";
+
+      const body = document.createElement("div");
+      body.textContent = text;
+
+      message.appendChild(label);
+      message.appendChild(body);
+      conversation.appendChild(message);
+    }
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter") return;
+
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage("You", text);
+      addMessage("TIG", 'I heard you say: "' + text + '"');
+
+      input.value = "";
+    });
+  </script>
 </body>
 </html>
