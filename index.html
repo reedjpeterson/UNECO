@@ -12,11 +12,10 @@
       --muted: #7b8190;
       --line: #b8b2a6;
       --glow: rgba(75, 102, 255, 0.18);
+      --column: min(520px, 90vw);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -25,7 +24,6 @@
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
       display: flex;
-      align-items: center;
       justify-content: center;
     }
 
@@ -34,12 +32,11 @@
       max-width: 900px;
       text-align: center;
       padding: 40px 24px;
+      transition: padding 0.3s ease;
     }
 
     @media (max-width: 600px) {
-      main {
-        padding-top: 20px;
-      }
+      main { padding-top: 20px; }
     }
 
     .greeting {
@@ -69,16 +66,18 @@
         0 28px 70px rgba(31, 42, 68, 0.12);
       animation: pulse 3s ease-in-out infinite;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .mic {
       font-size: 76px;
       line-height: 1;
       transform: rotate(-12deg);
+      transition: font-size 0.3s ease;
     }
 
     .input {
-      width: min(520px, 90vw);
+      width: var(--column);
       margin: 0 auto;
       border-bottom: 1px solid var(--line);
       display: flex;
@@ -97,9 +96,7 @@
       color: var(--text);
     }
 
-    input::placeholder {
-      color: var(--muted);
-    }
+    input::placeholder { color: var(--muted); }
 
     .privacy {
       margin-top: 36px;
@@ -108,19 +105,37 @@
     }
 
     .conversation {
-      margin: 56px auto 0;
-      max-width: 680px;
+      width: var(--column);
+      margin: 28px auto 0;
       text-align: left;
       font-size: 18px;
       line-height: 1.6;
     }
 
-    .message {
-      margin-bottom: 24px;
+    .message { margin-bottom: 24px; }
+    .speaker { font-weight: 700; }
+
+    body.active main {
+      padding-top: 28px;
     }
 
-    .speaker {
-      font-weight: 700;
+    body.active .greeting,
+    body.active .question,
+    body.active .privacy {
+      display: none;
+    }
+
+    body.active .mic-wrap {
+      width: 75px;
+      height: 75px;
+      margin-bottom: 22px;
+      box-shadow:
+        0 0 0 10px rgba(75, 102, 255, 0.10),
+        0 12px 35px rgba(31, 42, 68, 0.10);
+    }
+
+    body.active .mic {
+      font-size: 38px;
     }
 
     @keyframes pulse {
@@ -184,6 +199,8 @@
 
       const text = input.value.trim();
       if (!text) return;
+
+      document.body.classList.add("active");
 
       addMessage("You", text);
       addMessage("TIG", 'I heard you say: "' + text + '"');
